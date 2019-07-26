@@ -1,7 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="cdf8ee9d-d948-453d-918b-2799c60cc935" name="Default Changelist" comment="" />
+    <list default="true" id="cdf8ee9d-d948-453d-918b-2799c60cc935" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/board_app/static/js/jquery-3.2.1.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/accounts/static/css/bootstrap-grid.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/accounts/static/css/bootstrap-grid.css.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/accounts/static/css/bootstrap-grid.min.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/accounts/static/css/bootstrap-grid.min.css.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/accounts/static/css/bootstrap-reboot.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/accounts/static/css/bootstrap-reboot.css.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/accounts/static/css/bootstrap-reboot.min.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/accounts/static/css/bootstrap-reboot.min.css.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/accounts/static/css/bootstrap.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/accounts/static/css/bootstrap.css.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/accounts/static/css/bootstrap.min.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/accounts/static/css/bootstrap.min.css.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/accounts/static/js/bootstrap.bundle.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/accounts/static/js/bootstrap.bundle.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/accounts/static/js/bootstrap.bundle.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/accounts/static/js/bootstrap.bundle.min.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/accounts/static/js/bootstrap.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/accounts/static/js/bootstrap.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/accounts/static/js/bootstrap.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/accounts/static/js/bootstrap.min.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/accounts/templates/signup.html" beforeDir="false" afterPath="$PROJECT_DIR$/accounts/templates/signup.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/djangotask/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/djangotask/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/djangotask/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/djangotask/urls.py" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -16,6 +42,7 @@
       <list>
         <option value="HTML File" />
         <option value="Python Script" />
+        <option value="JavaScript File" />
       </list>
     </option>
   </component>
@@ -118,7 +145,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1564129218369</updated>
-      <workItem from="1564129222038" duration="23386000" />
+      <workItem from="1564129222038" duration="25761000" />
     </task>
     <servers />
   </component>
