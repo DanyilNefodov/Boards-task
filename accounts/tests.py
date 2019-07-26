@@ -15,3 +15,4 @@ class SignUpTests(TestCase):
     def test_signup_url_resolves_signup_view(self):
         view = resolve('/signup/')
         self.assertEquals(view.func, signup)
+# comment
