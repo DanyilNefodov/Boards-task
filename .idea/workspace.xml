@@ -2,23 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cdf8ee9d-d948-453d-918b-2799c60cc935" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/accounts/templates/my_account.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/board_app/templates/edit_post.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/board_app/templatetags/gravatar.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/includes/pagination.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/accounts/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/accounts/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/board_app/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/board_app/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/board_app/templates/board_topics.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/board_app/templates/reply_topic.html" beforeDir="false" afterPath="$PROJECT_DIR$/board_app/templates/reply_topic.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/board_app/templates/topic.html" beforeDir="false" afterPath="$PROJECT_DIR$/board_app/templates/topics.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/board_app/templates/topic_posts.html" beforeDir="false" afterPath="$PROJECT_DIR$/board_app/templates/topic_posts.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/board_app/templatetags/form_tags.py" beforeDir="false" afterPath="$PROJECT_DIR$/board_app/templatetags/form_tags.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/board_app/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/board_app/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/djangotask/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/djangotask/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/djangotask/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/djangotask/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -52,7 +36,7 @@
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/board_app" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
@@ -142,7 +126,7 @@
       <option name="presentableId" value="Default" />
       <updated>1564129218369</updated>
       <workItem from="1564129222038" duration="27803000" />
-      <workItem from="1564383464120" duration="16616000" />
+      <workItem from="1564383464120" duration="18555000" />
     </task>
     <servers />
   </component>
