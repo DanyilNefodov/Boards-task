@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'board_app',
     'markdown',
     'accounts',
+    'django_extensions',
 ]
 
 MIDDLEWARE = [
@@ -134,3 +135,5 @@ LOGOUT_REDIRECT_URL = 'home'
 LOGIN_REDIRECT_URL = 'home'
 
 LOGIN_URL = 'login'
+
+AUTH_USER_MODEL = "accounts.UserProfile"

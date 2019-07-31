@@ -2,13 +2,13 @@ from django.contrib.auth import login as auth_login
 from accounts.forms import SignUpForm
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
+from djangotask.settings import AUTH_USER_MODEL as User
 from django.urls import reverse_lazy
 from django.views.generic import UpdateView, CreateView
 from django.utils.decorators import method_decorator
-from accounts.forms import (
-    ReaderSignUpForm
-)
+# from accounts.forms import (
+#     ReaderSignUpForm
+# )
 
 # Create your views here.
 
@@ -25,19 +25,19 @@ def signup(request):
     return render(request, 'signup.html', {'form': form})
 
 
-class StudentSignUpView(CreateView):
-    model = User
-    form_class = ReaderSignUpForm
-    template_name = 'signup.html'
-
-    def get_context_data(self, **kwargs):
-        kwargs['user_type'] = 'student'
-        return super().get_context_data(**kwargs)
-
-    def form_valid(self, form):
-        user = form.save()
-        auth_login(self.request, user)
-        return redirect('students:quiz_list')
+# class ReaderSignUpView(CreateView):
+#     model = User
+#     form_class = ReaderSignUpForm
+#     template_name = 'signup.html'
+#
+#     def get_context_data(self, **kwargs):
+#         kwargs['user_type'] = 'Reader'
+#         return super().get_context_data(**kwargs)
+#
+#     def form_valid(self, form):
+#         user = form.save()
+#         auth_login(self.request, user)
+#         return redirect('readers:quiz_list')
 
 
 @method_decorator(login_required, name='dispatch')

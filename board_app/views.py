@@ -142,10 +142,25 @@ class PostUpdateView(UpdateView):
         return redirect('topic_posts', pk=post.topic.board.pk, topic_pk=post.topic.pk)
 
 
-def PutInBoards(request):
-    for i in range(1, 101):
-        Board.objects.create(
+def put_in_boards(request):
+    from_ = Board.objects.order_by('-pk')[0].id + 1
+    plus_ = 11
+    for i in range(from_, from_ + plus_):
+        board = Board.objects.create(
             name='Board #{0}'.format(i),
             description='Description #{0}'.format(i)
         )
+        for j in range(from_, from_ + plus_):
+            topic = Topic.objects.create(
+                subject='Subject #{0}'.format(j),
+                starter=request.user,
+                board=board,
+                views=0
+            )
+            for k in range(from_, from_ + plus_):
+                Post.objects.create(
+                    message='Message #{0}'.format(j),
+                    topic=topic,
+                    created_by=request.user
+                )
     return HttpResponse('Completed')
