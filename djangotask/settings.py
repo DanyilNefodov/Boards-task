@@ -24,7 +24,7 @@ SECRET_KEY = 'smqe*_t(cb+47w3%z9m@n)&%tz+@26i3^%4++-b*xq!)p=0%!x'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -77,9 +77,13 @@ WSGI_APPLICATION = 'djangotask.wsgi.application'
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    "default": {
+        "ENGINE": "django.db.backends.postgresql_psycopg2",
+        "NAME": os.environ.get("DATABASE_NAME", "djangotask"),
+        "USER": os.environ.get("DATABASE_USER", "djangotask"),
+        "PASSWORD": os.environ.get("DATABASE_PASSWORD", "djangotask"),
+        "HOST": os.environ.get("DATABASE_HOST", "localhost"),
+        "PORT": os.environ.get("DATABASE_PORT", 5432),
     }
 }
 

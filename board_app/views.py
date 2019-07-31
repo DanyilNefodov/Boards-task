@@ -4,8 +4,11 @@ from django.contrib.auth.models import User
 from django.urls import reverse_lazy, reverse
 from django.views.generic import UpdateView, ListView
 from django.utils.decorators import method_decorator
+from django.http import HttpResponse
 from django.utils import timezone
 from django.db.models import Count
+from django.core.paginator import Paginator
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from board_app.forms import (
     NewTopicForm, PostForm
 )
@@ -19,11 +22,17 @@ from board_app.models import (
 
 def home_view(request):
     board_list = Board.objects.all()
+    page = request.GET.get('page', 1)
+    paginator = Paginator(board_list, 20)
 
-    context = {
-        'boards': board_list,
-    }
-    return render(request, 'home_page.html', context)
+    try:
+        boards = paginator.page(page)
+    except PageNotAnInteger:
+        boards = paginator.page(1)
+    except EmptyPage:
+        boards = paginator.page(paginator.board_pages)
+        
+    return render(request, 'home_page.html', { 'boards': boards })
 
 
 
@@ -133,5 +142,10 @@ class PostUpdateView(UpdateView):
         return redirect('topic_posts', pk=post.topic.board.pk, topic_pk=post.topic.pk)
 
 
-
-
+def PutInBoards(request):
+    for i in range(1, 101):
+        Board.objects.create(
+            name='Board #{0}'.format(i),
+            description='Description #{0}'.format(i)
+        )
+    return HttpResponse('Completed')

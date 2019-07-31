@@ -15,35 +15,67 @@
         </tr>
         </thead>
         <tbody>
-        {% for board in boards %}
-            <tr>
-                <td>
-                    <a href="{% url 'board_topics' board.pk %}">{{ board.name }}</a>
-                    <small class="text-muted d-block">{{ board.description }}</small>
-                </td>
-                <td class="align-middle">
-                    {{ board.get_posts_count }}
-                </td>
-                <td class="align-middle">
-                    {{ board.topics.count }}
-                </td>
-                <td>
-                    {% with post=board.get_last_post %}
-                        {% if post %}
-                            <small>
-                                <a href="{% url 'topic_posts' board.pk post.topic.pk %}">
-                                    By {{ post.created_by.username }} at {{ post.created_at }}
-                                </a>
-                            </small>
-                        {% else %}
-                            <small class="text-muted">
-                                <em>No posts yet.</em>
-                            </small>
-                        {% endif %}
-                    {% endwith %}
-                </td>
-            </tr>
-        {% endfor %}
+            <div class="infinite-container">
+                {% for board in boards %}
+                    <div class="infinite-item">
+                        <tr>
+                            <td>
+                                <a href="{% url 'board_topics' board.pk %}">{{ board.name }}</a>
+                                <small class="text-muted d-block">{{ board.description }}</small>
+                            </td>
+                            <td class="align-middle">
+                                {{ board.get_posts_count }}
+                            </td>
+                            <td class="align-middle">
+                                {{ board.topics.count }}
+                            </td>
+                            <td>
+                                {% with post=board.get_last_post %}
+                                    {% if post %}
+                                        <small>
+                                            <a href="{% url 'topic_posts' board.pk post.topic.pk %}">
+                                                By {{ post.created_by.username }} at {{ post.created_at }}
+                                            </a>
+                                        </small>
+                                    {% else %}
+                                        <small class="text-muted">
+                                            <em>No posts yet.</em>
+                                        </small>
+                                    {% endif %}
+                                {% endwith %}
+                            </td>
+                        </tr>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="loading" style="display: none;">
+                <tr>
+                    <td>
+                        Loading...
+                    </td>
+                    <td>
+                    </td>
+                    <td>
+                    </td>
+                    <td>
+                    </td>
+                </tr>
+            </div>
+            
         </tbody>
     </table>
+    {% if boards.has_next %}
+    <a class="infinite-more-link" href="?page={{ boards.next_page_number }}">More</a>
+    {% endif %}
+    <script>
+            var infinite = new Waypoint.Infinite({
+              element: $('.infinite-container')[0],
+              onBeforePageLoad: function () {
+                $('.loading').show();
+              },
+              onAfterPageLoad: function ($items) {
+                $('.loading').hide();
+              }
+            });
+    </script>
 {% endblock %}
