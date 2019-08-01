@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
+from accounts.models import UserProfile as User
 from django.urls import reverse_lazy, reverse
 from django.views.generic import UpdateView, ListView
 from django.utils.decorators import method_decorator

@@ -1,5 +1,5 @@
 from django.db import models
-from djangotask.settings import AUTH_USER_MODEL as User
+from accounts.models import UserProfile as User
 from django.utils.html import mark_safe
 from markdown import markdown
 import math

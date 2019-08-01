@@ -1,6 +1,5 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-from djangotask.settings import AUTH_USER_MODEL as User
 
 # Create your models here.
 
@@ -15,7 +14,7 @@ class Hobby(models.Model):
 
 
 class Blogger(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True, related_name='blogger')
+    user = models.OneToOneField(UserProfile, on_delete=models.CASCADE, primary_key=True, related_name='blogger')
     birth_day = models.DateField()
     country = models.CharField(max_length=100)
     hobbies = models.ManyToManyField(Hobby)
@@ -26,6 +25,6 @@ class Interest(models.Model):
 
 
 class Reader(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True, related_name='reader')
+    user = models.OneToOneField(UserProfile, on_delete=models.CASCADE, primary_key=True, related_name='reader')
     hobbies = models.ManyToManyField(Interest)
     status = models.CharField(max_length=255)

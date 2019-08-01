@@ -2,7 +2,7 @@ from django.contrib.auth import login as auth_login
 from accounts.forms import SignUpForm
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from djangotask.settings import AUTH_USER_MODEL as User
+from accounts.models import UserProfile as User
 from django.urls import reverse_lazy
 from django.views.generic import UpdateView, CreateView
 from django.utils.decorators import method_decorator

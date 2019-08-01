@@ -3,14 +3,10 @@
   <component name="ChangeListManager">
     <list default="true" id="cdf8ee9d-d948-453d-918b-2799c60cc935" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/accounts/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/accounts/forms.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/accounts/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/accounts/models.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/accounts/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/accounts/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/board_app/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/board_app/models.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/board_app/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/board_app/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/djangotask/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/djangotask/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/djangotask/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/djangotask/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -179,7 +175,8 @@
       <workItem from="1564491007123" duration="5340000" />
       <workItem from="1564499978682" duration="7419000" />
       <workItem from="1564557838739" duration="8019000" />
-      <workItem from="1564585108235" duration="4789000" />
+      <workItem from="1564585108235" duration="5068000" />
+      <workItem from="1564643494900" duration="3381000" />
     </task>
     <servers />
   </component>
