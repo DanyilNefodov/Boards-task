@@ -5,6 +5,8 @@ from django.contrib.auth.models import AbstractUser
 
 
 class UserProfile(AbstractUser):
+    # name = models.CharField(max_length=100)
+    # surmane = models.CharField(max_length=100)
     is_blogger = models.BooleanField(default=False)
     is_reader = models.BooleanField(default=False)
 

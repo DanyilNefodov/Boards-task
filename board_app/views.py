@@ -31,9 +31,8 @@ def home_view(request):
         boards = paginator.page(1)
     except EmptyPage:
         boards = paginator.page(paginator.board_pages)
-        
-    return render(request, 'home_page.html', { 'boards': boards })
 
+    return render(request, 'home_page.html', {'boards': boards})
 
 
 class TopicListView(ListView):
@@ -55,20 +54,18 @@ class TopicListView(ListView):
 @login_required
 def new_topic(request, pk):
     board = get_object_or_404(Board, pk=pk)
-    if request.method == 'POST':
-        form = NewTopicForm(request.POST)
-        if form.is_valid():
-            topic = form.save(commit=False)
-            topic.board = board
-            topic.starter = request.user  # <- here
-            topic.save()
-            Post.objects.create(
-                message=form.cleaned_data.get('message'),
-                topic=topic,
-                created_by=request.user  # <- and here
-            )
-            return redirect('topic_posts', pk=pk, topic_pk=topic.pk)  # <- here
-        form = NewTopicForm()
+    form = NewTopicForm(request.POST)
+    if form.is_valid():
+        topic = form.save(commit=False)
+        topic.board = board
+        topic.starter = request.user  # <- here
+        topic.save()
+        Post.objects.create(
+            message=form.cleaned_data.get('message'),
+            topic=topic,
+            created_by=request.user  # <- and here
+        )
+        return redirect('topic_posts', pk=pk, topic_pk=topic.pk)  # <- here
     return render(request, 'new_topic.html', {'board': board, 'form': form})
 
 
@@ -79,12 +76,11 @@ class PostListView(ListView):
     paginate_by = 5
 
     def get_context_data(self, **kwargs):
-
         session_key = 'viewed_topic_{}'.format(self.topic.pk)  # <-- here
         if not self.request.session.get(session_key, False):
             self.topic.views += 1
             self.topic.save()
-            self.request.session[session_key] = True           # <-- until here
+            self.request.session[session_key] = True  # <-- until here
 
         kwargs['topic'] = self.topic
         return super().get_context_data(**kwargs)
@@ -98,34 +94,30 @@ class PostListView(ListView):
 @login_required
 def reply_topic(request, pk, topic_pk):
     topic = get_object_or_404(Topic, board__pk=pk, pk=topic_pk)
-    if request.method == 'POST':
-        form = PostForm(request.POST)
-        if form.is_valid():
-            post = form.save(commit=False)
-            post.topic = topic
-            post.created_by = request.user
-            post.save()
+    form = PostForm(request.POST)
+    if form.is_valid():
+        post = form.save(commit=False)
+        post.topic = topic
+        post.created_by = request.user
+        post.save()
 
-            topic.last_updated = timezone.now()
-            topic.save()
+        topic.last_updated = timezone.now()
+        topic.save()
 
-            topic_url = reverse('topic_posts', kwargs={'pk': pk, 'topic_pk': topic_pk})
-            topic_post_url = '{url}?page={page}#{id}'.format(
-                url=topic_url,
-                id=post.pk,
-                page=topic.get_page_count()
-            )
-
-            return redirect(topic_post_url)
-    else:
-        form = PostForm()
+        topic_url = reverse('topic_posts', kwargs={'pk': pk, 'topic_pk': topic_pk})
+        topic_post_url = '{url}?page={page}#{id}'.format(
+            url=topic_url,
+            id=post.pk,
+            page=topic.get_page_count()
+        )
+        return redirect(topic_post_url)
     return render(request, 'reply_topic.html', {'topic': topic, 'form': form})
 
 
 @method_decorator(login_required, name='dispatch')
 class PostUpdateView(UpdateView):
     model = Post
-    fields = ('message', )
+    fields = ('message',)
     template_name = 'edit_post.html'
     pk_url_kwarg = 'post_pk'
     context_object_name = 'post'
