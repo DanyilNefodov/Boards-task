@@ -6338,6 +6338,7 @@ button.bg-dark:focus {
   .d-sm-table-cell {
     display: table-cell !important;
   }
+  /*.table-cemargin-left: auto; margin-right: auto;"*/
   .d-sm-flex {
     display: -webkit-box !important;
     display: -ms-flexbox !important;
@@ -8907,6 +8908,8 @@ a.text-dark:hover, a.text-dark:focus {
   visibility: hidden !important;
 }
 
+
+
 @media print {
   *,
   *::before,
@@ -8971,5 +8974,12 @@ a.text-dark:hover, a.text-dark:focus {
   .table-bordered td {
     border: 1px solid #ddd !important;
   }
+  .table-center {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 1000px;
+    float: none;
+  }
 }
+
 /*# sourceMappingURL=bootstrap.css.map */

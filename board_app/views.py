@@ -144,7 +144,7 @@ class PostUpdateView(UpdateView):
 
 def put_in_boards(request):
     from_ = Board.objects.order_by('-pk')[0].id + 1
-    plus_ = 11
+    plus_ = 10
     for i in range(from_, from_ + plus_):
         board = Board.objects.create(
             name='Board #{0}'.format(i),

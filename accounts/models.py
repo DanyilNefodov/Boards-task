@@ -5,12 +5,15 @@ from django.contrib.auth.models import AbstractUser
 
 
 class UserProfile(AbstractUser):
-    is_student = models.BooleanField(default=False)
-    is_teacher = models.BooleanField(default=False)
+    is_blogger = models.BooleanField(default=False)
+    is_reader = models.BooleanField(default=False)
 
 
 class Hobby(models.Model):
     title = models.CharField(max_length=40)
+
+    def __str__(self):
+        return self.title
 
 
 class Blogger(models.Model):
@@ -23,8 +26,11 @@ class Blogger(models.Model):
 class Interest(models.Model):
     title = models.CharField(max_length=40)
 
+    def __str__(self):
+        return self.title
+
 
 class Reader(models.Model):
     user = models.OneToOneField(UserProfile, on_delete=models.CASCADE, primary_key=True, related_name='reader')
-    hobbies = models.ManyToManyField(Interest)
+    interests = models.ManyToManyField(Interest)
     status = models.CharField(max_length=255)
