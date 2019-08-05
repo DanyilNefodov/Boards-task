@@ -17,7 +17,15 @@ class NewTopicForm(forms.ModelForm):
         fields = ['subject', 'message']
 
 
+class UpdateTopicForm(forms.ModelForm):
+    class Meta:
+        model = Topic
+        fields = ['subject', ]
+
+
 class PostForm(forms.ModelForm):
     class Meta:
         model = Post
         fields = ['message', ]
+
+

@@ -4,13 +4,14 @@ from accounts.models import UserProfile as User
 from django.urls import reverse_lazy, reverse
 from django.views.generic import UpdateView, ListView
 from django.utils.decorators import method_decorator
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.utils import timezone
 from django.db.models import Count
 from django.core.paginator import Paginator
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.template.loader import render_to_string
 from board_app.forms import (
-    NewTopicForm, PostForm
+    NewTopicForm, PostForm, UpdateTopicForm
 )
 from board_app.models import (
     Board, Topic, Post
@@ -67,6 +68,42 @@ def new_topic(request, pk):
         )
         return redirect('topic_posts', pk=pk, topic_pk=topic.pk)  # <- here
     return render(request, 'new_topic.html', {'board': board, 'form': form})
+
+
+# from django.views.decorators.csrf import csrf_protect
+# from django.views.decorators.cache import cache_page
+#
+#
+# @cache_page(60 * 15)
+# @csrf_protect
+def update_topic(request, pk, topic_pk):
+    # print("\n\n\nQQ\n\n\n")
+    # data = dict()
+    # if request.method == 'POST':
+    #     form = UpdateTopicForm(request.POST)
+    #     if form.is_valid():
+    #         topic = get_object_or_404(Board, pk=topic_pk)
+    #         topic.subject = form.subject
+    #         topic.last_updated = timezone.now()
+    #         return redirect('topic_posts', pk=board_pk, topic_pk=topic_pk)
+    # else:
+    #     form = UpdateTopicForm()
+
+    form = UpdateTopicForm()
+    print("QQ")
+    context = {'form': form}
+    html_form = render_to_string(
+        template_name='includes/partial.html',
+        context=context,
+        request=request,
+    )
+    return JsonResponse({'html_form': html_form})
+
+
+def delete_topic(request, pk, topic_pk):
+    Topic.objects.filter(pk=topic_pk).delete()
+    return JsonResponse({})
+
 
 
 class PostListView(ListView):

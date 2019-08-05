@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
+{% load static %}
 {% load humanize %}
+{% load static %}
 
 {% block title %}
     {{ board.name }} - {{ block.super }}
@@ -9,8 +11,11 @@
     <li class="breadcrumb-item"><a href="{% url 'home' %}">Boards</a></li>
     <li class="breadcrumb-item active">{{ board.name }}</li>
 {% endblock %}
-
+{% block javascript %}
+    <script src="{% static 'js/update_topic.js' %}"></script>
+{% endblock %}
 {% block content %}
+
     <div class="mb-4">
         <a href="{% url 'new_topic' board.pk %}" class="btn btn-primary">New topic</a>
     </div>
@@ -23,6 +28,8 @@
             <th>Replies</th>
             <th>Views</th>
             <th>Last Update</th>
+            <th></th>
+            <th></th>
         </tr>
         </thead>
         <tbody>
@@ -47,6 +54,12 @@
                 <td class="align-middle">{{ topic.replies }}</td>
                 <td class="align-middle">{{ topic.views }}</td>
                 <td class="align-middle">{{ topic.last_updated|naturaltime }}</td>
+                <td class="align-middle">
+                    <button type="button" class="btn update_topic" board-pk="{{ topic.board.id }}"
+                            topic-pk="{{ topic.id }}"><img src="{% static "svg/pencil.svg" %}"
+                                                           alt="Update"></button>
+                </td>
+                <td class="align-middle"><img src="{% static "svg/trash.svg" %}" alt="Delete"></td>
             </tr>
         {% endfor %}
         </tbody>
@@ -54,4 +67,10 @@
 
     {% include 'includes/pagination.html' %}
 
+    <div class="modal fade" id="modal-topic">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            </div>
+        </div>
+    </div>
 {% endblock %}

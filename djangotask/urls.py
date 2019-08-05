@@ -19,12 +19,17 @@ from board_app import views as views
 from django.conf.urls import url
 from django.contrib import admin
 
+# from django.conf.urls.static import static
+# from djangotask import settings
+
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', views.home_view, name='home'),
     url(r'^boards/(?P<pk>\d+)/$', views.TopicListView.as_view(), name='board_topics'),
     url(r'^boards/(?P<pk>\d+)/new/$', views.new_topic, name='new_topic'),
     url(r'^boards/(?P<pk>\d+)/topics/(?P<topic_pk>\d+)/$', views.PostListView.as_view(), name='topic_posts'),
+    url(r'^boards/(?P<pk>\d+)/topics/(?P<topic_pk>\d+)/update/$', views.update_topic, name='update_topic'),
+    url(r'^boards/(?P<pk>\d+)/topics/(?P<topic_pk>\d+)/delete/$', views.delete_topic, name='delete_topic'),
     url(r'^boards/(?P<pk>\d+)/topics/(?P<topic_pk>\d+)/reply/$', views.reply_topic, name='reply_topic'),
     url(r'^boards/(?P<pk>\d+)/topics/(?P<topic_pk>\d+)/posts/(?P<post_pk>\d+)/edit/$',
         views.PostUpdateView.as_view(), name='edit_post'),
@@ -51,4 +56,5 @@ urlpatterns = [
         name='password_reset_complete'),
     url(r'^settings/account/$', accounts_views.UserUpdateView.as_view(), name='my_account'),
     url(r'^putin/', views.put_in_boards, name='putin')
+    # static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 ]

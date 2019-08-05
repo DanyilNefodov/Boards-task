@@ -128,6 +128,12 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
 
+# # Media files
+#
+# MEDIA_ROOT = '/media/'
+#
+# MEDIA_URL = '/media/'
+
 # Log settings
 
 LOGOUT_REDIRECT_URL = 'home'
