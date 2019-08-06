@@ -19,7 +19,7 @@ class ReaderSignUpForm(UserCreationForm):
     interests = forms.ModelMultipleChoiceField(
         queryset=Interest.objects.all(),
         widget=forms.CheckboxSelectMultiple,
-        required=True
+        required=False
     )
     status = forms.CharField(max_length=255)
 
@@ -44,7 +44,7 @@ class BloggerSignUpForm(UserCreationForm):
     hobbies = forms.ModelMultipleChoiceField(
         queryset=Hobby.objects.all(),
         widget=forms.CheckboxSelectMultiple,
-        required=True
+        required=False
     )
     birth_day = forms.DateField()
     country = forms.CharField(max_length=255)

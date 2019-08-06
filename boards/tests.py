@@ -1,9 +1,9 @@
 # from django.urls import resolve, reverse
 # from django.test import TestCase
-# from board_app.views import (
+# from boards.views import (
 #     home_view, board_topics, new_topic
 # )
-# from board_app.models import (
+# from boards.models import (
 #     Board, Topic, Post
 # )
 # from .forms import NewTopicForm

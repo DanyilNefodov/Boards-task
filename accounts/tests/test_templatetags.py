@@ -1,6 +1,6 @@
 from django import forms
 from django.test import TestCase
-from board_app.templatetags.form_tags import field_type, input_class
+from boards.templatetags.form_tags import field_type, input_class
 
 class ExampleForm(forms.Form):
     name = forms.CharField()

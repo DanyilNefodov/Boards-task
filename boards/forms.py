@@ -1,5 +1,5 @@
 from django import forms
-from board_app.models import (
+from boards.models import (
     Board, Topic, Post
 )
 

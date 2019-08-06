@@ -16,9 +16,11 @@
 {% endblock %}
 {% block content %}
 
-    <div class="mb-4">
-        <a href="{% url 'new_topic' board.pk %}" class="btn btn-primary">New topic</a>
-    </div>
+    {% if request.user.is_blogger or request.user.is_superuser %}
+        <div class="mb-4">
+            <a href="{% url 'new_topic' board.pk %}" class="btn btn-primary">New topic</a>
+        </div>
+    {% endif %}
 
     <table class="table table-striped mb-4">
         <thead class="thead-inverse">
@@ -28,8 +30,10 @@
             <th>Replies</th>
             <th>Views</th>
             <th>Last Update</th>
-            <th></th>
-            <th></th>
+            {% if request.user.is_blogger or request.user.is_superuser %}
+                <th></th>
+                <th></th>
+            {% endif %}
         </tr>
         </thead>
         <tbody>
@@ -57,17 +61,19 @@
                 <td class="align-middle">{{ topic.views }}</td>
                 <td class="align-middle"
                     id="{{ board.pk }}-{{ topic.pk }}-last-update">{{ topic.last_updated|naturaltime }}</td>
-                <td class="align-middle">
-                    <button type="button" class="btn update_topic" board-pk="{{ topic.board.id }}"
-                            topic-pk="{{ topic.id }}"><img src="{% static "svg/pencil.svg" %}"
-                                                           alt="Update"></button>
-                </td>
-                {#                <td class="align-middle"><img src="{% static "svg/trash.svg" %}" alt="Delete"></td>#}
-                <td class="align-middle">
-                    <button type="button" class="btn delete_topic" board-pk="{{ topic.board.id }}"
-                            topic-pk="{{ topic.id }}"><img src="{% static "svg/trash.svg" %}"
-                                                           alt="Detele"></button>
-                </td>
+                {% if request.user.is_blogger or request.user.is_superuser %}
+                    <td class="align-middle">
+                        <button type="button" class="btn update_topic" board-pk="{{ topic.board.id }}"
+                                topic-pk="{{ topic.id }}"><img src="{% static "svg/pencil.svg" %}"
+                                                               alt="Update"></button>
+                    </td>
+                    {#                <td class="align-middle"><img src="{% static "svg/trash.svg" %}" alt="Delete"></td>#}
+                    <td class="align-middle">
+                        <button type="button" class="btn delete_topic" board-pk="{{ topic.board.id }}"
+                                topic-pk="{{ topic.id }}"><img src="{% static "svg/trash.svg" %}"
+                                                               alt="Detele"></button>
+                    </td>
+                {% endif %}
             </tr>
         {% endfor %}
         </tbody>

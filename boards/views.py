@@ -10,12 +10,13 @@ from django.db.models import Count
 from django.core.paginator import Paginator
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.template.loader import render_to_string
+from django.contrib import messages
 import humanize, datetime
 import json
-from board_app.forms import (
+from boards.forms import (
     NewTopicForm, PostForm, UpdateTopicForm
 )
-from board_app.models import (
+from boards.models import (
     Board, Topic, Post
 )
 
@@ -24,7 +25,7 @@ from board_app.models import (
 
 
 def home_view(request):
-    board_list = Board.objects.all()
+    board_list = Board.objects.order_by('-id')
     page = request.GET.get('page', 1)
     paginator = Paginator(board_list, 20)
 
@@ -69,6 +70,7 @@ def new_topic(request, pk):
             topic=topic,
             created_by=request.user  # <- and here
         )
+        messages.success(request, 'Your topic was created successfully!', extra_tags='alert')
         return redirect('topic_posts', pk=pk, topic_pk=topic.pk)  # <- here
     return render(request, 'new_topic.html', {'board': board, 'form': form})
 
@@ -86,6 +88,7 @@ def update_topic(request, pk, topic_pk):
             data['board_pk'] = pk
             data['topic_pk'] = topic_pk
             data['naturaldelta'] = humanize.naturaldelta(datetime.datetime.now())
+            messages.success(request, 'Your topic was updated successfully!', extra_tags='alert')
         else:
             data['form_is_valid'] = False
 
@@ -106,7 +109,6 @@ def update_topic(request, pk, topic_pk):
 def delete_topic(request, pk, topic_pk, confirmed=False):
     data = dict()
 
-
     if request.method == 'POST':
         if confirmed:
             topic = Topic.objects.get(pk=topic_pk)
@@ -115,6 +117,7 @@ def delete_topic(request, pk, topic_pk, confirmed=False):
             data['board_pk'] = pk,
             data['topic_pk'] = topic_pk
             data['confirmed'] = True
+            messages.success(request, 'Your topic was deleted successfully!', extra_tags='alert')
 
     context = {
         'board_pk': pk,
@@ -194,25 +197,24 @@ class PostUpdateView(UpdateView):
         return redirect('topic_posts', pk=post.topic.board.pk, topic_pk=post.topic.pk)
 
 
-def put_in_boards(request):
+def put_in_boards(request, boards_, topics_, posts_):
     try:
         from_ = (Board.objects.order_by('-pk')[0].id + 1)
     except:
         from_ = 1
-    plus_ = 10
-    for i in range(from_, from_ + plus_):
+    for i in range(from_, from_ + int(boards_)):
         board = Board.objects.create(
             name='Board #{0}'.format(i),
             description='Description #{0}'.format(i)
         )
-        for j in range(from_, from_ + plus_):
+        for j in range(from_, from_ + int(topics_)):
             topic = Topic.objects.create(
                 subject='Subject #{0}'.format(j),
                 starter=request.user,
                 board=board,
                 views=0
             )
-            for k in range(from_, from_ + plus_):
+            for k in range(from_, from_ + int(posts_)):
                 Post.objects.create(
                     message='Message #{0}'.format(j),
                     topic=topic,

@@ -6,6 +6,9 @@ from accounts.models import UserProfile as User
 from django.urls import reverse_lazy
 from django.views.generic import UpdateView, CreateView
 from django.utils.decorators import method_decorator
+from django.contrib import messages
+from django.contrib.messages.views import SuccessMessageMixin
+
 # from accounts.forms import (
 #     ReaderSignUpForm
 # )
@@ -59,10 +62,11 @@ class BloggerSignUpView(CreateView):
 
 
 @method_decorator(login_required, name='dispatch')
-class UserUpdateView(UpdateView):
+class UserUpdateView(SuccessMessageMixin, UpdateView):
     model = User
     fields = ('first_name', 'last_name', 'email', )
     template_name = 'my_account.html'
+    success_message = 'Your account was updated successfully!'
     success_url = reverse_lazy('home')
 
     def get_object(self):
