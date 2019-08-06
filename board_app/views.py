@@ -4,12 +4,14 @@ from accounts.models import UserProfile as User
 from django.urls import reverse_lazy, reverse
 from django.views.generic import UpdateView, ListView
 from django.utils.decorators import method_decorator
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.utils import timezone
 from django.db.models import Count
 from django.core.paginator import Paginator
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.template.loader import render_to_string
+import humanize, datetime
+import json
 from board_app.forms import (
     NewTopicForm, PostForm, UpdateTopicForm
 )
@@ -54,6 +56,7 @@ class TopicListView(ListView):
 
 @login_required
 def new_topic(request, pk):
+    print('ffffffffff')
     board = get_object_or_404(Board, pk=pk)
     form = NewTopicForm(request.POST)
     if form.is_valid():
@@ -70,40 +73,41 @@ def new_topic(request, pk):
     return render(request, 'new_topic.html', {'board': board, 'form': form})
 
 
-# from django.views.decorators.csrf import csrf_protect
-# from django.views.decorators.cache import cache_page
-#
-#
-# @cache_page(60 * 15)
-# @csrf_protect
 def update_topic(request, pk, topic_pk):
-    # print("\n\n\nQQ\n\n\n")
-    # data = dict()
-    # if request.method == 'POST':
-    #     form = UpdateTopicForm(request.POST)
-    #     if form.is_valid():
-    #         topic = get_object_or_404(Board, pk=topic_pk)
-    #         topic.subject = form.subject
-    #         topic.last_updated = timezone.now()
-    #         return redirect('topic_posts', pk=board_pk, topic_pk=topic_pk)
-    # else:
-    #     form = UpdateTopicForm()
+    print("\n\n\nQQ\n\n\n")
 
-    form = UpdateTopicForm()
-    print("QQ")
-    context = {'form': form}
-    html_form = render_to_string(
-        template_name='includes/partial.html',
+    data = dict()
+    if request.method == 'POST':
+        form = UpdateTopicForm(request.POST)
+        if form.is_valid():
+            topic = get_object_or_404(Topic, pk=topic_pk)
+            topic.subject = form.cleaned_data['subject']
+            topic.last_updated = timezone.now()
+            topic.save()
+            data['form_is_valid'] = True
+            data['board_pk'] = pk
+            data['topic_pk'] = topic_pk
+            data['naturaldelta'] = humanize.naturaldelta(datetime.datetime.now())
+        else:
+            data['form_is_valid'] = False
+
+    context = {
+        'form': form,
+        'board_pk': pk,
+        'topic_pk': topic_pk
+    }
+
+    data['html_form'] = render_to_string(
+        template_name='includes/partial_create.html',
         context=context,
         request=request,
     )
-    return JsonResponse({'html_form': html_form})
+    return JsonResponse(data)
 
 
 def delete_topic(request, pk, topic_pk):
     Topic.objects.filter(pk=topic_pk).delete()
     return JsonResponse({})
-
 
 
 class PostListView(ListView):
@@ -172,7 +176,10 @@ class PostUpdateView(UpdateView):
 
 
 def put_in_boards(request):
-    from_ = Board.objects.order_by('-pk')[0].id + 1
+    try:
+        from_ = (Board.objects.order_by('-pk')[0].id + 1)
+    except:
+        from_ = 1
     plus_ = 10
     for i in range(from_, from_ + plus_):
         board = Board.objects.create(

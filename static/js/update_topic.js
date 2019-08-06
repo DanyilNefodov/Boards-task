@@ -14,50 +14,75 @@ function getCookie(name) {
     return cookieValue;
 }
 
-$(document).ready(function () {
-    $('.update_topic').on('click', function (e) {
-        e.preventDefault();
-        let board_pk = $(this).attr('board-pk');
-        let topic_pk = $(this).attr('topic-pk');
-        let token = $(this).attr('token');
-        $.ajax({
-            url: `topics/${topic_pk}/update/`,
-            type: 'post',
-            dataType: 'json',
-            data: {
-                'board_pk': board_pk,
-                'topic_pk': topic_pk,
-                csrfmiddlewaretoken: getCookie('csrftoken')
-            },
-            beforeSend: function () {
-                $("#modal-topic").modal("show");
-            },
-            success: function (data) {
-                $("#modal-topic .modal-content").html(data.html_form);
-            }
-        });
+
+$('.update_topic').on('click', function (e) {
+    let board_pk = $(this).attr('board-pk');
+    let topic_pk = $(this).attr('topic-pk');
+    var form = $(this);
+    e.preventDefault();
+    $.ajax({
+        url: `topics/${topic_pk}/update/`,
+        type: 'post',
+        dataType: 'json',
+        data: {
+            'board_pk': board_pk,
+            'topic_pk': topic_pk,
+            csrfmiddlewaretoken: getCookie('csrftoken')
+        },
+        beforeSend: function (data) {
+            $("#modal-topic").modal("show");
+        },
+        success: function (data) {
+            $("#modal-topic .modal-content").html(data.html_form);
+        }
     });
-    $('.delete_topic').on('click', function (e) {
-        e.preventDefault();
-        let board_pk = $(this).attr('board-pk');
-        let topic_pk = $(this).attr('topic-pk');
-        $.ajax({
-            url: `topics/${topic_pk}/delete/`,
-            type: 'post',
-            dataType: 'json',
-            data: {
-                'board_pk': board_pk,
-                'topic_pk': topic_pk,
-                csrfmiddlewaretoken: getCookie('csrftoken')
-            },
-            beforeSend: function () {
-                $("#modal-topic").modal("show");
-                console.log('QQ');
-            },
-            success: function (data) {
-                $("#modal-topic .modal-content").html(data.html_form);
-                console.log(data)
+    return false;
+});
+
+$("#modal-topic").on("submit", ".js-topic-create-form", function () {
+    var form = $(this);
+    console.log(form);
+    let subject = document.getElementById("id_subject").value;
+
+    $.ajax({
+        url: form.attr("action"),
+        data: form.serialize(),
+        type: form.attr("method"),
+        dataType: 'json',
+        success: function (data) {
+            if (data.form_is_valid) {
+                $("#modal-topic").modal("hide");
+                // $(`#${data.board_pk}-${data.topic_pk}`).hide();
+                $(`#${data.board_pk}-${data.topic_pk}-subject`).html(subject);
+                $(`#${data.board_pk}-${data.topic_pk}-last-update`).html(data.naturaldelta);
+            } else {
+                $("#modal-book .modal-content").html(data.html_form);
             }
-        });
+        }
+    });
+    return false;
+});
+
+$('.delete_topic').on('click', function (e) {
+    e.preventDefault();
+    let board_pk = $(this).attr('board-pk');
+    let topic_pk = $(this).attr('topic-pk');
+    $.ajax({
+        url: `topics/${topic_pk}/delete/`,
+        type: 'post',
+        dataType: 'json',
+        data: {
+            'board_pk': board_pk,
+            'topic_pk': topic_pk,
+            csrfmiddlewaretoken: getCookie('csrftoken')
+        },
+        beforeSend: function () {
+            $("#modal-topic").modal("show");
+            console.log('QQ');
+        },
+        success: function (data) {
+            $("#modal-topic .modal-content").html(data.html_form);
+            console.log(data)
+        }
     });
 });

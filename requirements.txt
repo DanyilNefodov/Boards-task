@@ -17,3 +17,5 @@ wcwidth==0.1.7
 zipp==0.5.2
 psycopg2==2.8.3
 django-extensions
+ipdb==0.12.2
+humanize

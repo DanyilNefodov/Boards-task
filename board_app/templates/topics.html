@@ -35,9 +35,9 @@
         <tbody>
         {% for topic in topics %}
             {% url 'topic_posts' board.pk topic.pk as topic_url %}
-            <tr>
+            <tr id="{{ board.pk }}-{{ topic.pk }}">
                 <td>
-                    <p class="mb-0">
+                    <p class="mb-0" id="{{ board.pk }}-{{ topic.pk }}-subject">
                         <a href="{{ topic_url }}">{{ topic.subject }}</a>
                     </p>
                     <small class="text-muted">
@@ -53,7 +53,7 @@
                 <td class="align-middle">{{ topic.starter.username }}</td>
                 <td class="align-middle">{{ topic.replies }}</td>
                 <td class="align-middle">{{ topic.views }}</td>
-                <td class="align-middle">{{ topic.last_updated|naturaltime }}</td>
+                <td class="align-middle" id="{{ board.pk }}-{{ topic.pk }}-last-update">{{ topic.last_updated|naturaltime }}</td>
                 <td class="align-middle">
                     <button type="button" class="btn update_topic" board-pk="{{ topic.board.id }}"
                             topic-pk="{{ topic.id }}"><img src="{% static "svg/pencil.svg" %}"
@@ -70,6 +70,7 @@
     <div class="modal fade" id="modal-topic">
         <div class="modal-dialog">
             <div class="modal-content">
+
             </div>
         </div>
     </div>

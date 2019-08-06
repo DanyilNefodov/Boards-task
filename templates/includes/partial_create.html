@@ -1,6 +1,6 @@
 {% load widget_tweaks %}
 
-<form method="POST">
+<form method="POST" action="{% url 'update_topic'  board_pk topic_pk %}" class="js-topic-create-form">
     {% csrf_token %}
     <div class="modal-header">
         <h4 class="modal-title">Update</h4>
@@ -21,6 +21,6 @@
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-primary">Update</button>
+        <button type="click" class="btn btn-primary">Update</button>
     </div>
 </form>
