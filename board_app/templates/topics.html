@@ -12,7 +12,7 @@
     <li class="breadcrumb-item active">{{ board.name }}</li>
 {% endblock %}
 {% block javascript %}
-    <script src="{% static 'js/update_topic.js' %}"></script>
+    <script src="{% static 'js/update_delete_topic.js' %}"></script>
 {% endblock %}
 {% block content %}
 
@@ -37,9 +37,11 @@
             {% url 'topic_posts' board.pk topic.pk as topic_url %}
             <tr id="{{ board.pk }}-{{ topic.pk }}">
                 <td>
-                    <p class="mb-0" id="{{ board.pk }}-{{ topic.pk }}-subject">
-                        <a href="{{ topic_url }}">{{ topic.subject }}</a>
-                    </p>
+                    <a href="{{ topic_url }}">
+                        <p class="mb-0" id="{{ board.pk }}-{{ topic.pk }}-subject">
+                            {{ topic.subject }}
+                        </p>
+                    </a>
                     <small class="text-muted">
                         Pages:
                         {% for i in topic.get_page_range %}
@@ -53,13 +55,19 @@
                 <td class="align-middle">{{ topic.starter.username }}</td>
                 <td class="align-middle">{{ topic.replies }}</td>
                 <td class="align-middle">{{ topic.views }}</td>
-                <td class="align-middle" id="{{ board.pk }}-{{ topic.pk }}-last-update">{{ topic.last_updated|naturaltime }}</td>
+                <td class="align-middle"
+                    id="{{ board.pk }}-{{ topic.pk }}-last-update">{{ topic.last_updated|naturaltime }}</td>
                 <td class="align-middle">
                     <button type="button" class="btn update_topic" board-pk="{{ topic.board.id }}"
                             topic-pk="{{ topic.id }}"><img src="{% static "svg/pencil.svg" %}"
                                                            alt="Update"></button>
                 </td>
-                <td class="align-middle"><img src="{% static "svg/trash.svg" %}" alt="Delete"></td>
+                {#                <td class="align-middle"><img src="{% static "svg/trash.svg" %}" alt="Delete"></td>#}
+                <td class="align-middle">
+                    <button type="button" class="btn delete_topic" board-pk="{{ topic.board.id }}"
+                            topic-pk="{{ topic.id }}"><img src="{% static "svg/trash.svg" %}"
+                                                           alt="Detele"></button>
+                </td>
             </tr>
         {% endfor %}
         </tbody>
@@ -67,11 +75,17 @@
 
     {% include 'includes/pagination.html' %}
 
-    <div class="modal fade" id="modal-topic">
+    <div class="modal fade" id="modal-topic-update">
         <div class="modal-dialog">
             <div class="modal-content">
-
             </div>
         </div>
     </div>
+    <div class="modal fade" id="modal-topic-delete">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            </div>
+        </div>
+    </div>
+
 {% endblock %}

@@ -74,8 +74,6 @@ def new_topic(request, pk):
 
 
 def update_topic(request, pk, topic_pk):
-    print("\n\n\nQQ\n\n\n")
-
     data = dict()
     if request.method == 'POST':
         form = UpdateTopicForm(request.POST)
@@ -98,16 +96,37 @@ def update_topic(request, pk, topic_pk):
     }
 
     data['html_form'] = render_to_string(
-        template_name='includes/partial_create.html',
+        template_name='includes/partial_update.html',
         context=context,
         request=request,
     )
     return JsonResponse(data)
 
 
-def delete_topic(request, pk, topic_pk):
-    Topic.objects.filter(pk=topic_pk).delete()
-    return JsonResponse({})
+def delete_topic(request, pk, topic_pk, confirmed=False):
+    data = dict()
+
+
+    if request.method == 'POST':
+        if confirmed:
+            topic = Topic.objects.get(pk=topic_pk)
+            Post.objects.filter(topic=topic).delete()
+            topic.delete()
+            data['board_pk'] = pk,
+            data['topic_pk'] = topic_pk
+            data['confirmed'] = True
+
+    context = {
+        'board_pk': pk,
+        'topic_pk': topic_pk
+    }
+
+    data['html_form'] = render_to_string(
+        template_name='includes/partial_delete.html',
+        context=context,
+        request=request,
+    )
+    return JsonResponse(data)
 
 
 class PostListView(ListView):

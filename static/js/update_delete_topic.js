@@ -30,16 +30,16 @@ $('.update_topic').on('click', function (e) {
             csrfmiddlewaretoken: getCookie('csrftoken')
         },
         beforeSend: function (data) {
-            $("#modal-topic").modal("show");
+            $("#modal-topic-update").modal("show");
         },
         success: function (data) {
-            $("#modal-topic .modal-content").html(data.html_form);
+            $("#modal-topic-update .modal-content").html(data.html_form);
         }
     });
     return false;
 });
 
-$("#modal-topic").on("submit", ".js-topic-create-form", function () {
+$("#modal-topic-update").on("submit", ".js-topic-update-form", function () {
     var form = $(this);
     console.log(form);
     let subject = document.getElementById("id_subject").value;
@@ -51,12 +51,12 @@ $("#modal-topic").on("submit", ".js-topic-create-form", function () {
         dataType: 'json',
         success: function (data) {
             if (data.form_is_valid) {
-                $("#modal-topic").modal("hide");
+                $("#modal-topic-update").modal("hide");
                 // $(`#${data.board_pk}-${data.topic_pk}`).hide();
                 $(`#${data.board_pk}-${data.topic_pk}-subject`).html(subject);
                 $(`#${data.board_pk}-${data.topic_pk}-last-update`).html(data.naturaldelta);
             } else {
-                $("#modal-book .modal-content").html(data.html_form);
+                $("#modal-topic-update .modal-content").html(data.html_form);
             }
         }
     });
@@ -77,12 +77,30 @@ $('.delete_topic').on('click', function (e) {
             csrfmiddlewaretoken: getCookie('csrftoken')
         },
         beforeSend: function () {
-            $("#modal-topic").modal("show");
-            console.log('QQ');
+            $("#modal-topic-delete").modal("show");
         },
         success: function (data) {
-            $("#modal-topic .modal-content").html(data.html_form);
-            console.log(data)
+            $("#modal-topic-delete .modal-content").html(data.html_form);
         }
     });
+});
+
+$("#modal-topic-delete").on("submit", ".js-topic-delete-form", function () {
+    var form = $(this);
+    console.log(form);
+    $.ajax({
+        url: form.attr("action"),
+        data: form.serialize(),
+        type: form.attr("method"),
+        dataType: 'json',
+        success: function (data) {
+            if (data.confirmed) {
+                $("#modal-topic-delete").modal("hide");
+                $(`#${data.board_pk}-${data.topic_pk}`).hide();
+            } else {
+                $("#modal-topic-delete .modal-content").html(data.html_form);
+            }
+        }
+    });
+    return false;
 });
