@@ -142,11 +142,13 @@ STATICFILES_DIRS = [
 
 # Log settings
 
+LOGIN_URL = 'login'
+
+LOGOUT_URL = 'logout'
+
 LOGOUT_REDIRECT_URL = 'home'
 
 LOGIN_REDIRECT_URL = 'home'
-
-LOGIN_URL = 'login'
 
 AUTH_USER_MODEL = "accounts.UserProfile"
 
