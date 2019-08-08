@@ -42,9 +42,9 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'django.contrib.flatpages',
     'widget_tweaks',
+    'accounts',
     'boards',
     'markdown',
-    'accounts',
     'django_extensions',
     'social_django',
 ]
