@@ -17,7 +17,7 @@ from boards.forms import (
     NewTopicForm, PostForm, UpdateTopicForm
 )
 from boards.models import (
-    Board, Topic, Post
+    Board, Topic, Post, Log
 )
 
 
@@ -26,6 +26,7 @@ from boards.models import (
 
 def home_view(request):
     board_list = Board.objects.order_by('-id')
+    logs = Log.objects.order_by('-id')[:10]
     page = request.GET.get('page', 1)
     paginator = Paginator(board_list, 20)
 
@@ -36,7 +37,7 @@ def home_view(request):
     except EmptyPage:
         boards = paginator.page(paginator.board_pages)
 
-    return render(request, 'home_page.html', {'boards': boards})
+    return render(request, 'home_page.html', {'boards': boards, 'logs': logs})
 
 
 class TopicListView(ListView):
@@ -70,6 +71,11 @@ def new_topic(request, pk):
             topic=topic,
             created_by=request.user  # <- and here
         )
+        Log.objects.create(
+            topic=topic.subject,
+            kind=0,
+            user=request.user
+        )
         messages.success(request, 'Your topic was created successfully!', extra_tags='alert')
         return redirect('topic_posts', pk=pk, topic_pk=topic.pk)  # <- here
     return render(request, 'new_topic.html', {'board': board, 'form': form})
@@ -84,6 +90,11 @@ def update_topic(request, pk, topic_pk):
             topic.subject = form.cleaned_data['subject']
             topic.last_updated = timezone.now()
             topic.save()
+            Log.objects.create(
+                topic=topic.subject,
+                kind=1,
+                user=request.user
+            )
             data['form_is_valid'] = True
             data['board_pk'] = pk
             data['topic_pk'] = topic_pk
@@ -113,6 +124,11 @@ def delete_topic(request, pk, topic_pk, confirmed=False):
         if confirmed:
             topic = Topic.objects.get(pk=topic_pk)
             Post.objects.filter(topic=topic).delete()
+            Log.objects.create(
+                topic=topic.subject,
+                kind=2,
+                user=request.user
+            )
             topic.delete()
             data['board_pk'] = pk,
             data['topic_pk'] = topic_pk

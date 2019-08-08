@@ -36,3 +36,4 @@ class Reader(models.Model):
     user = models.OneToOneField(UserProfile, on_delete=models.CASCADE, primary_key=True, related_name='reader')
     interests = models.ManyToManyField(Interest)
     status = models.CharField(max_length=255)
+

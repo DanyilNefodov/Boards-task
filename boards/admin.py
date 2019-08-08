@@ -1,6 +1,6 @@
 from django.contrib import admin
 from boards.models import (
-    Board, Topic, Post
+    Board, Topic, Post, Log
 )
 
 # Register your models here.
@@ -8,3 +8,4 @@ from boards.models import (
 admin.site.register(Board)
 admin.site.register(Topic)
 admin.site.register(Post)
+admin.site.register(Log)

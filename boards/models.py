@@ -67,3 +67,16 @@ class Post(models.Model):
         return mark_safe(markdown(self.message, safe_mode='escape'))
 
 
+log_kinds = ((0, ("created")),
+             (1, ("updated")),
+             (2, ("deleted")))
+
+
+class Log(models.Model):
+    topic = models.CharField(max_length=255)
+    kind = models.PositiveIntegerField(choices=log_kinds)
+    user = models.ForeignKey(User, related_name='logs', on_delete=models.DO_NOTHING)
+
+    def __str__(self):
+        return '{0} has been {1} by {2}'.format(self.topic, log_kinds[self.kind][1], self.user)
+

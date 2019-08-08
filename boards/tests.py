@@ -95,3 +95,17 @@
 #         form = response.context.get('form')
 #         self.assertEquals(response.status_code, 200)
 #         self.assertTrue(form.errors)
+import json
+
+gg = "{'szlobov': {'firstName': 'Serhii', 'lastName': 'Zlobov', 'company': 'DataArt', 'position': 'Python Developer', 'urn_id': 'ACoAAAbV-QoBaQ_FGurzwd4m7BiMCHYAqBWLvIk', 'displayPictureUrl': '', 'location': 'Ukraine'}, 'artemsklar': {'firstName': 'Artem', 'lastName': 'Skliar', 'company': ' AnvilEight', 'position': 'Python developer ', 'urn_id': 'ACoAAA0M_bIBca7m_dFTyh2RelrYpQqab0XFK4o', 'displayPictureUrl': '', 'location': 'Ukraine'}, 'anna-shlepak-3103a3121': {'firstName': 'Anna', 'lastName': 'Shlepak', 'company': ' Luxoft', 'position': 'Python Developer ', 'urn_id': 'ACoAAB4is_wBD2pjrmbJCOcNsyWF_IPXNDWj68I', 'displayPictureUrl': '', 'location': 'Ukraine'}, 'volodindmitriy121': {'firstName': 'Dmitriy', 'lastName': 'Volodin', 'company': 'разработчик – Quantum_Inc', 'position': 'Python', 'urn_id': 'ACoAACF7P_sBzxEqZgi0pNTgnuzTvuoY9SIQLic', 'displayPictureUrl': '', 'location': 'Ukraine'}, 'shpergl': {'firstName': 'Shpergl', 'lastName': 'Oleksander', 'company': 'GlobalLogic', 'position': 'Senior Python Developer', 'urn_id': 'ACoAABjohcwB6wG4qn6rTJqujwnPzUEiJir9yUM', 'displayPictureUrl': '', 'location': 'Ukraine'}, 'andrey-karbanovich-a099195a': {'firstName': 'Andrey', 'lastName': 'Karbanovich', 'company': '', 'position': 'Full Stack (Python/JS/Swift) developer – AnvilEight', 'urn_id': 'ACoAAAyYH2kBWC92I0tzq4imdVqxtJgzE5OuQR0', 'displayPictureUrl': '', 'location': 'Ukraine'}, 'dmitry-vasilishin-378044117': {'firstName': 'Dmitry', 'lastName': 'Vasilishin', 'company': '', 'position': 'Middle Python Developer – Ciklum', 'urn_id': 'ACoAAB0EEQwBylJuGFYmfRs9Bpd4SQV0AeByvKc', 'displayPictureUrl': '', 'location': 'Ukraine'}, 'vova-dranyy-727445a8': {'firstName': 'Vova', 'lastName': 'Dranyy', 'company': 'Remote work', 'position': 'Python Developer', 'urn_id': 'ACoAABbYmc8Bql6khVgNXrnZQPkAq9Tjt7zmZok', 'displayPictureUrl': '', 'location': 'Ukraine'}, 'антон-поляков-8aa578188': {'firstName': 'Антон', 'lastName': 'Поляков', 'company': '', 'position': 'Python backend developer', 'urn_id': 'ACoAACw47gIBDYv8iFfYZgAOFSvQvyYU-cpI3SQ', 'displayPictureUrl': '', 'location': 'Ukraine'}, 'illia-boichuk': {'firstName': 'Illia', 'lastName': 'Boichuk', 'company': '', 'position': 'Python developer – LaSoft', 'urn_id': 'ACoAACXfX2sB-VG4PL-b3RpZ1T0nrpiLbitufJo', 'displayPictureUrl': '', 'location': 'Ukraine'}}"
+
+
+# def list_of_str_to_dict(dict):
+#    for index, item in enumerate(dict):
+#        json_acceptable_string = item.replace(": ", " : ")
+#        json_acceptable_string = json_acceptable_string.replace("'", "\"")
+#        dict[index] = json_acceptable_string
+#    return json.loads(json.dumps(dict))
+
+print(type(json.loads(gg)))
+
