@@ -16,6 +16,10 @@
                     </form>
                 </div>
                 <div class="card-footer text-muted text-center">
+                    <a href="{% url 'social:begin' 'github' %}">Login with GitHub</a><br>
+                    <a href="{% url 'social:begin' 'facebook' %}">Login with Facebook</a><br>
+                </div>
+                <div class="card-footer text-muted text-center">
                     New to Django Boards? <a href="{% url 'signup' %}">Sign up</a>
                 </div>
             </div>

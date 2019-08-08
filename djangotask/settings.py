@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'markdown',
     'accounts',
     'django_extensions',
+    'social_django',
 ]
 
 MIDDLEWARE = [
@@ -57,6 +58,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'social_django.middleware.SocialAuthExceptionMiddleware',
 ]
 
 ROOT_URLCONF = 'djangotask.urls'
@@ -73,6 +75,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'social_django.context_processors.backends',  # <--
+                'social_django.context_processors.login_redirect',  # <--
             ],
         },
     },
@@ -142,6 +146,14 @@ STATICFILES_DIRS = [
 
 # Log settings
 
+AUTHENTICATION_BACKENDS = (
+    'social_core.backends.github.GithubOAuth2',
+    'social_core.backends.twitter.TwitterOAuth',
+    'social_core.backends.facebook.FacebookOAuth2',
+
+    'django.contrib.auth.backends.ModelBackend',
+)
+
 LOGIN_URL = 'login'
 
 LOGOUT_URL = 'logout'
@@ -151,6 +163,18 @@ LOGOUT_REDIRECT_URL = 'home'
 LOGIN_REDIRECT_URL = 'home'
 
 AUTH_USER_MODEL = "accounts.UserProfile"
+
+# Git login
+
+# SOCIAL_AUTH_GITHUB_ORG_NAME = 'Boards'
+SOCIAL_AUTH_GITHUB_KEY = '981eb4886b8e10d4dd96'
+SOCIAL_AUTH_GITHUB_SECRET = '1d4c843753ca6607010e28590f5a558a489003b2'
+
+# Git login
+
+# SOCIAL_AUTH_GITHUB_ORG_NAME = 'Boards'
+SOCIAL_AUTH_FACEBOOK_KEY = '362201888028744'
+SOCIAL_AUTH_FACEBOOK_SECRET = '8e991267302523a64b752db6e55f02c0'
 
 # Messages
 
