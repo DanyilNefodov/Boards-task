@@ -2,13 +2,15 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from accounts.models import UserProfile as User
 from django.db import transaction
+from nocaptcha_recaptcha.fields import NoReCaptchaField
 from accounts.models import (
     Reader, Blogger, Hobby, Interest
 )
 
 
 class SignUpForm(UserCreationForm):
-    email = forms.CharField(max_length=254, required=True, widget=forms.EmailInput())
+    email = forms.CharField(max_length=254, required=True,
+                            widget=forms.EmailInput())
 
     class Meta:
         model = User
@@ -22,6 +24,7 @@ class ReaderSignUpForm(UserCreationForm):
         required=False
     )
     status = forms.CharField(max_length=255)
+    captcha = NoReCaptchaField()
 
     class Meta:
         model = User
@@ -48,6 +51,7 @@ class BloggerSignUpForm(UserCreationForm):
     )
     birth_day = forms.DateField()
     country = forms.CharField(max_length=255)
+    captcha = NoReCaptchaField()
 
     class Meta:
         model = User

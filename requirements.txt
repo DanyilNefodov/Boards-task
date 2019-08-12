@@ -20,3 +20,4 @@ django-extensions
 ipdb==0.12.2
 humanize
 social-auth-app-django
+django-nocaptcha-recaptcha
