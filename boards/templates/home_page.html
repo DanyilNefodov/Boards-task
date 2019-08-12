@@ -1,54 +1,54 @@
 {% extends 'base.html' %}
 
 {% block breadcrumb %}
-    <li class="breadcrumb-item active">Boards</li>
+<li class="breadcrumb-item active">Boards</li>
 {% endblock %}
 
 {% block content %}
-    <div class="container">
-        <div class="row">
-            <div class="col-8">
-                <table class="table">
-                    <thead class="thead-inverse">
+<div class="container">
+    <div class="row">
+        <div class="col-8">
+            <table class="table">
+                <thead class="thead-inverse">
                     <tr>
                         <th>Board</th>
                         <th>Posts</th>
                         <th>Topics</th>
                         <th>Last Post</th>
                     </tr>
-                    </thead>
-                    <tbody>
+                </thead>
+                <tbody>
                     <div class="infinite-container">
                         {% for board in boards %}
-                            <div class="infinite-item">
-                                <tr>
-                                    <td>
-                                        <a href="{% url 'board_topics' board.pk %}">{{ board.name }}</a>
-                                        <small class="text-muted d-block">{{ board.description }}</small>
-                                    </td>
-                                    <td class="align-middle">
-                                        {{ board.get_posts_count }}
-                                    </td>
-                                    <td class="align-middle">
-                                        {{ board.topics.count }}
-                                    </td>
-                                    <td>
-                                        {% with post=board.get_last_post %}
-                                            {% if post %}
-                                                <small>
-                                                    <a href="{% url 'topic_posts' board.pk post.topic.pk %}">
-                                                        By {{ post.created_by.username }} at {{ post.created_at }}
-                                                    </a>
-                                                </small>
-                                            {% else %}
-                                                <small class="text-muted">
-                                                    <em>No posts yet.</em>
-                                                </small>
-                                            {% endif %}
-                                        {% endwith %}
-                                    </td>
-                                </tr>
-                            </div>
+                        <div class="infinite-item">
+                            <tr>
+                                <td>
+                                    <a href="{% url 'board_topics' board.pk %}">{{ board.name }}</a>
+                                    <small class="text-muted d-block">{{ board.description }}</small>
+                                </td>
+                                <td class="align-middle">
+                                    {{ board.get_posts_count }}
+                                </td>
+                                <td class="align-middle">
+                                    {{ board.topics.count }}
+                                </td>
+                                <td>
+                                    {% with post=board.get_last_post %}
+                                    {% if post %}
+                                    <small>
+                                        <a href="{% url 'topic_posts' board.pk post.topic.pk %}">
+                                            By {{ post.created_by.username }} at {{ post.created_at }}
+                                        </a>
+                                    </small>
+                                    {% else %}
+                                    <small class="text-muted">
+                                        <em>No posts yet.</em>
+                                    </small>
+                                    {% endif %}
+                                    {% endwith %}
+                                </td>
+                            </tr>
+                        </div>
                         {% endfor %}
                     </div>
                     <div class="loading waypoint" style="display: none;">
@@ -65,44 +65,21 @@
                         </tr>
                     </div>
 
-                    </tbody>
-                </table>
-            </div>
-            <div class="col-4">
-                <h3>Recent actions</h3>
-                <p>My actions</p>
-                <ul class="nav_ul">
-                    {% for log in logs %}
-                    <li>{{ log.topic }} has been {{ log.kind }} by {{ log.user.username }}</li>
-                    {% endfor %}
-                </ul>
-            </div>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-4">
+            <h3>Recent actions</h3>
+            <p>My actions</p>
+            <ul class="nav_ul">
+                {% for log in logs %}
+                <li>{{ log.topic }} has been {{ log.kind }} by {{ log.user.username }}</li>
+                {% endfor %}
+            </ul>
         </div>
     </div>
-    {% if boards.has_next %}
-        <a class="infinite-more-link" href="?page={{ boards.next_page_number }}">More</a>
-    {% endif %}
-
-    {#    <script>#}
-    {#            var infinite = new Waypoint.Infinite({#}
-    {#              element: $('.loading')[0],#}
-    {#              onBeforePageLoad: function () {#}
-    {#                $('.loading').show();#}
-    {#                console.log('Show');#}
-    {#              },#}
-    {#              onAfterPageLoad: function ($items) {#}
-    {#                $('.loading').hide();#}
-    {#                console.log('Hide');#}
-    {#              }#}
-    {#            });#}
-    {#            infinite.onAfterPageLoad()#}
-    {#    </script>#}
-    {#    <script>#}
-    {#        var waypoint = new Waypoint.Infinite({#}
-    {#            element: document.getElementById('waypoint'),#}
-    {#            handler: function (direction) {#}
-    {#                console.log('Scrolled to waypoint!')#}
-    {#            }#}
-    {#        })#}
-    {#    </script>#}
+</div>
+{% if boards.has_next %}
+<a class="infinite-more-link" href="?page={{ boards.next_page_number }}">More</a>
+{% endif %}
 {% endblock %}

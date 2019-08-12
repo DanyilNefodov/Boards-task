@@ -11,8 +11,11 @@ from django.core.paginator import Paginator
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.template.loader import render_to_string
 from django.contrib import messages
-import humanize, datetime
+import humanize
+import datetime
 import json
+import csv
+import xlwt
 from boards.forms import (
     NewTopicForm, PostForm, UpdateTopicForm
 )
@@ -52,7 +55,8 @@ class TopicListView(ListView):
 
     def get_queryset(self):
         self.board = get_object_or_404(Board, pk=self.kwargs.get('pk'))
-        queryset = self.board.topics.order_by('-last_updated').annotate(replies=Count('posts') - 1)
+        queryset = self.board.topics.order_by(
+            '-last_updated').annotate(replies=Count('posts') - 1)
         return queryset
 
 
@@ -76,7 +80,8 @@ def new_topic(request, pk):
             kind=0,
             user=request.user
         )
-        messages.success(request, 'Your topic was created successfully!', extra_tags='alert')
+        messages.success(
+            request, 'Your topic was created successfully!', extra_tags='alert')
         return redirect('topic_posts', pk=pk, topic_pk=topic.pk)  # <- here
     return render(request, 'new_topic.html', {'board': board, 'form': form})
 
@@ -98,8 +103,10 @@ def update_topic(request, pk, topic_pk):
             data['form_is_valid'] = True
             data['board_pk'] = pk
             data['topic_pk'] = topic_pk
-            data['naturaldelta'] = humanize.naturaldelta(datetime.datetime.now())
-            messages.success(request, 'Your topic was updated successfully!', extra_tags='alert')
+            data['naturaldelta'] = humanize.naturaldelta(
+                datetime.datetime.now())
+            messages.success(
+                request, 'Your topic was updated successfully!', extra_tags='alert')
         else:
             data['form_is_valid'] = False
 
@@ -133,7 +140,8 @@ def delete_topic(request, pk, topic_pk, confirmed=False):
             data['board_pk'] = pk,
             data['topic_pk'] = topic_pk
             data['confirmed'] = True
-            messages.success(request, 'Your topic was deleted successfully!', extra_tags='alert')
+            messages.success(
+                request, 'Your topic was deleted successfully!', extra_tags='alert')
 
     context = {
         'board_pk': pk,
@@ -165,7 +173,8 @@ class PostListView(ListView):
         return super().get_context_data(**kwargs)
 
     def get_queryset(self):
-        self.topic = get_object_or_404(Topic, board__pk=self.kwargs.get('pk'), pk=self.kwargs.get('topic_pk'))
+        self.topic = get_object_or_404(Topic, board__pk=self.kwargs.get(
+            'pk'), pk=self.kwargs.get('topic_pk'))
         queryset = self.topic.posts.order_by('created_at')
         return queryset
 
@@ -183,7 +192,8 @@ def reply_topic(request, pk, topic_pk):
         topic.last_updated = timezone.now()
         topic.save()
 
-        topic_url = reverse('topic_posts', kwargs={'pk': pk, 'topic_pk': topic_pk})
+        topic_url = reverse('topic_posts', kwargs={
+                            'pk': pk, 'topic_pk': topic_pk})
         topic_post_url = '{url}?page={page}#{id}'.format(
             url=topic_url,
             id=post.pk,
@@ -232,8 +242,55 @@ def put_in_boards(request, boards_, topics_, posts_):
             )
             for k in range(from_, from_ + int(posts_)):
                 Post.objects.create(
-                    message='Message #{0}'.format(j),
+                    message='Message #{0}'.format(k),
                     topic=topic,
                     created_by=request.user
                 )
     return HttpResponse('Completed')
+
+
+def export_posts_csv(request, pk, topic_pk):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="posts.csv"'
+
+    writer = csv.writer(response)
+    writer.writerow(['Message', 'Created by'])
+
+    posts = Post.objects.filter(topic=topic_pk).values_list(
+        'message', 'created_by')
+    for post in posts:
+        writer.writerow(post)
+
+    return response
+
+
+def export_posts_xlwt(request, pk, topic_pk):
+    response = HttpResponse(content_type='application/ms-excel')
+    response['Content-Disposition'] = 'attachment; filename="posts.xls"'
+
+    wb = xlwt.Workbook(encoding='utf-8')
+    ws = wb.add_sheet('Posts')
+
+    # Sheet header, first row
+    row_num = 0
+
+    font_style = xlwt.XFStyle()
+    font_style.font.bold = True
+
+    columns = ['Message', 'Created by', ]
+
+    for col_num in range(len(columns)):
+        ws.write(row_num, col_num, columns[col_num], font_style)
+
+    # Sheet body, remaining rows
+    font_style = xlwt.XFStyle()
+
+    rows = Post.objects.filter(topic=topic_pk).values_list(
+        'message', 'created_by')
+    for row in rows:
+        row_num += 1
+        for col_num in range(len(row)):
+            ws.write(row_num, col_num, row[col_num], font_style)
+
+    wb.save(response)
+    return response
