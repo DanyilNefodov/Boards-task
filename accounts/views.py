@@ -1,5 +1,5 @@
 from django.contrib.auth import login as auth_login
-from accounts.forms import ReaderSignUpForm, BloggerSignUpForm
+from accounts.forms import ReaderSignUpForm, BloggerSignUpForm, LogInForm
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from accounts.models import UserProfile as User
@@ -8,24 +8,20 @@ from django.views.generic import UpdateView, CreateView
 from django.utils.decorators import method_decorator
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
-
-# from accounts.forms import (
-#     ReaderSignUpForm
-# )
-
-# Create your views here.
+from django.contrib.auth.views import LoginView
 
 
-# def signup(request):
-#     if request.method == 'POST':
-#         form = SignUpForm(request.POST)
-#         if form.is_valid():
-#             user = form.save()
-#             auth_login(request, user)
-#             return redirect('home')
-#     else:
-#         form = SignUpForm()
-#     return render(request, 'signup.html', {'form': form})
+class LogInView(LoginView):
+    model = User
+    form_class = LogInForm
+    template_name = 'login.html'
+
+    def form_valid(self, form):
+        user = form.save()
+        auth_login(self.request, user,
+                   backend='django.contrib.auth.backends.ModelBackend')
+        return redirect('home')
+
 
 def signup(request):
     return render(request, 'task_2_signup.html', {})

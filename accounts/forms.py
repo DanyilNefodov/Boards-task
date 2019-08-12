@@ -8,6 +8,19 @@ from accounts.models import (
 )
 
 
+class LogInForm():
+    captcha = NoReCaptchaField()
+
+    class Meta:
+        model = User
+        fields = ('username', 'password1')
+
+    def confirm_login_allowed(self, user):
+        if not user.is_active or not user.is_validated:
+            raise forms.ValidationError(
+                'There was a problem with your login.', code='invalid_login')
+
+
 class SignUpForm(UserCreationForm):
     email = forms.CharField(max_length=254, required=True,
                             widget=forms.EmailInput())

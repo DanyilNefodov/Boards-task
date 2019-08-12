@@ -18,15 +18,21 @@ from accounts import views as accounts_views
 from boards import views as views
 from django.conf.urls import url, include
 from django.contrib import admin
+from accounts.forms import LogInForm
 
 # from django.conf.urls.static import static
 # from djangotask import settings
 
 urlpatterns = [
     url(r'^signup/$', accounts_views.signup, name='signup'),
-    url(r'^signup/reader/$', accounts_views.ReaderSignUpView.as_view(), name='signup_as_reader'),
-    url(r'^signup/blogger/$', accounts_views.BloggerSignUpView.as_view(), name='signup_as_blogger'),
+    url(r'^signup/reader/$', accounts_views.ReaderSignUpView.as_view(),
+        name='signup_as_reader'),
+    url(r'^signup/blogger/$', accounts_views.BloggerSignUpView.as_view(),
+        name='signup_as_blogger'),
+    # url(r'^login/$', auth_views.login, {'template_name':'login.html',
+    #                                     'authentication_form': LogInForm}, name='login'),
     url(r'^login/$', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
+    # url(r'^login/$', accounts_views.LogInView.as_view(), name='login'),
     url(r'^logout/$', auth_views.LogoutView.as_view(), name='logout'),
     url(r'^reset/$',
         auth_views.PasswordResetView.as_view(
@@ -36,13 +42,17 @@ urlpatterns = [
         ),
         name='password_reset'),
     url(r'^reset/done/$',
-        auth_views.PasswordResetDoneView.as_view(template_name='password_reset_done.html'),
+        auth_views.PasswordResetDoneView.as_view(
+            template_name='password_reset_done.html'),
         name='password_reset_done'),
     url(r'^reset/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
-        auth_views.PasswordResetConfirmView.as_view(template_name='password_reset_confirm.html'),
+        auth_views.PasswordResetConfirmView.as_view(
+            template_name='password_reset_confirm.html'),
         name='password_reset_confirm'),
     url(r'^reset/complete/$',
-        auth_views.PasswordResetCompleteView.as_view(template_name='password_reset_complete.html'),
+        auth_views.PasswordResetCompleteView.as_view(
+            template_name='password_reset_complete.html'),
         name='password_reset_complete'),
-    url(r'^settings/account/$', accounts_views.UserUpdateView.as_view(), name='my_account'),
+    url(r'^settings/account/$',
+        accounts_views.UserUpdateView.as_view(), name='my_account'),
 ]
