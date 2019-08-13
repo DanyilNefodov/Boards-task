@@ -28,6 +28,7 @@ DEBUG = True
 ALLOWED_HOSTS = ['*']
 
 SITE_ID = 1
+SITE_URL = "http://localhost:8000"
 
 # Application definition
 
@@ -185,3 +186,16 @@ GOOGLE_RECAPTCHA_SECRET_KEY = "6Lc4krIUAAAAAM8UufaXCmfVu7aIRH-QsiugYfQq"
 # Messages
 
 MESSAGE_LEVEL = message_constants.DEBUG
+
+# Celery
+
+CELERY_BROKER_URL = 'redis://redis:6379'
+CELERY_RESULT_BACKEND = 'redis://redis:6379'
+# Email
+
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_USE_TLS = True
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_HOST_USER = "test@gmail.com"
+EMAIL_HOST_PASSWORD = "test"
+EMAIL_PORT = 587

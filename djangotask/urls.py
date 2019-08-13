@@ -28,6 +28,7 @@ urlpatterns = [
     url(r'^', include('accounts.urls')),
     url(r'^oauth/', include('social_django.urls', namespace='social')),
     url(r'^info/', include('django.contrib.flatpages.urls')),
-    url(r'^putin/(?P<boards_>\d+)/(?P<topics_>\d+)/(?P<posts_>\d+)/', views.put_in_boards, name='putin')
+    url(r'^putin/(?P<boards_>\d+)/(?P<topics_>\d+)/(?P<posts_>\d+)/',
+        views.put_in_boards, name='putin'),
+    url(r'^send/', views.send_mail_view, name='send')
 ]
-

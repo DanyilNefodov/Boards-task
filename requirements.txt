@@ -23,3 +23,6 @@ social-auth-app-django
 django-nocaptcha-recaptcha
 xlwt
 WeasyPrint
+celery==4.2.2
+redis==3.3.6
+sendgrid

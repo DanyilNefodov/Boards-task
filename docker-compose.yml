@@ -1,9 +1,9 @@
 version: '3'
 
 services:
-  djangotask_server:
+  server:
     build: .
-    container_name: server
+    container_name: djangotask_server
     working_dir: /var/www/djangotask
     ports:
       - "$SERVER_PORT:$SERVER_PORT"
@@ -16,9 +16,39 @@ services:
     env_file:
       - .env
     depends_on:
-      - djangotask_database
-  djangotask_database:
-    container_name: database
+      - database
+      - redis
+      - celery
+
+  database:
+    container_name: djangotask_database
     image: postgres:latest
     volumes:
       - ./initial.sql:/docker-entrypoint-initdb.d/initial.sql
+
+  redis:
+      image: redis:latest
+      container_name: redis
+      ports:
+        - '$REDIS_PORT:$REDIS_PORT'
+      privileged: true
+      sysctls:
+        net.core.somaxconn: '511'
+
+  celery:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: djangotask_celery
+    working_dir: /var/www/djangotask
+    volumes:
+      - ./:/var/www/djangotask
+    command: /bin/bash -c "celery -A djangotask worker -B --loglevel=info "
+    depends_on:
+      - redis
+      - database
+    env_file:
+      - .env
+    environment:
+      - DJANGO_SETTINGS_MODULE=$DJANGO_SETTINGS_MODULE
+      - PGHOST=$DATABASE_HOST

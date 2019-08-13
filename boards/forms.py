@@ -1,7 +1,9 @@
+from django.core.validators import MinValueValidator, MaxValueValidator
 from django import forms
 from boards.models import (
     Board, Topic, Post
 )
+
 
 class NewTopicForm(forms.ModelForm):
     message = forms.CharField(
@@ -27,5 +29,3 @@ class PostForm(forms.ModelForm):
     class Meta:
         model = Post
         fields = ['message', ]
-
-

@@ -17,6 +17,7 @@ import datetime
 import json
 import csv
 import xlwt
+from django.views.generic.edit import FormView
 from weasyprint import HTML
 from boards.forms import (
     NewTopicForm, PostForm, UpdateTopicForm
@@ -24,9 +25,31 @@ from boards.forms import (
 from boards.models import (
     Board, Topic, Post, Log
 )
+import os
+from sendgrid import SendGridAPIClient
+from sendgrid.helpers.mail import Mail
 
 
 # Create your views here.
+
+
+def send_mail_view(request):
+    message = Mail(
+        from_email='django.test.spamer@gmail.com',
+        to_emails='django.test.spamer@gmail.com',
+        subject='Sending with Twilio SendGrid is Fun',
+        html_content='<strong>and easy to do anywhere, even with Python</strong>'
+    )
+    # try:
+    sg = SendGridAPIClient(
+        "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")
+    response = sg.send(message)
+    print(response.status_code)
+    print(response.body)
+    print(response.headers)
+    return HttpResponse('Sended')
+    # except:
+    #     return HttpResponse('Not sended')
 
 
 def home_view(request):
