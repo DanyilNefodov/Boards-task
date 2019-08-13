@@ -29,6 +29,7 @@ import os
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
 from django.core.mail import send_mail
+from djangotask.celery.tasks import send_reply_notification
 
 
 # Create your views here.
@@ -213,6 +214,12 @@ def reply_topic(request, pk, topic_pk):
             url=topic_url,
             id=post.pk,
             page=topic.get_page_count()
+        )
+        send_reply_notification.delay(
+            post.topic.starter.username,
+            post.topic.starter.email,
+            post.topic.subject,
+            post.created_by.username
         )
         return redirect(topic_post_url)
     return render(request, 'reply_topic.html', {'topic': topic, 'form': form})

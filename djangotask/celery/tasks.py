@@ -22,3 +22,10 @@ def send_signup_invitation(username, email):
     send_mail('Welcome to Boards', 'Hello, {}!'.format(username), 'django.test.spamer@gmail.com',
               [email, ])
     return 'Invitation to {} was sended'.format(username)
+
+
+@shared_task
+def send_reply_notification(username, email, topic_subject, replyer):
+    send_mail('Reply to {}'.format(topic_subject), 'Hello, {0}!\n\n{1} has replyed to your topic'.format(username, replyer), 'django.test.spamer@gmail.com',
+              [email, ])
+    return 'Invitation to {} was sended'.format(username)

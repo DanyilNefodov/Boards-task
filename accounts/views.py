@@ -41,7 +41,7 @@ class ReaderSignUpView(CreateView):
         user = form.save()
         auth_login(self.request, user,
                    backend='django.contrib.auth.backends.ModelBackend')
-        send_signup_invitation(user.username, user.email)
+        send_signup_invitation.delay(user.username, user.email)
         return redirect('home')
 
 
@@ -58,7 +58,7 @@ class BloggerSignUpView(CreateView):
         user = form.save()
         auth_login(self.request, user,
                    backend='django.contrib.auth.backends.ModelBackend')
-        send_signup_invitation(user.username, user.email)
+        send_signup_invitation.delay(user.username, user.email)
         return redirect('home')
 
 
