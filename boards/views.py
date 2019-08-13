@@ -28,25 +28,15 @@ from boards.models import (
 import os
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
+from django.core.mail import send_mail
 
 
 # Create your views here.
 
 
 def send_mail_view(request):
-    message = Mail(
-        from_email='django.test.spamer@gmail.com',
-        to_emails='django.test.spamer@gmail.com',
-        subject='Sending with Twilio SendGrid is Fun',
-        html_content='<strong>and easy to do anywhere, even with Python</strong>'
-    )
-    # try:
-    sg = SendGridAPIClient(
-        "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")
-    response = sg.send(message)
-    print(response.status_code)
-    print(response.body)
-    print(response.headers)
+    send_mail('subject', 'body of the message', 'django.test.spamer@gmail.com',
+              ['django.test.spamer@gmail.com', ])
     return HttpResponse('Sended')
     # except:
     #     return HttpResponse('Not sended')

@@ -9,6 +9,7 @@ from django.utils.decorators import method_decorator
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.views import LoginView
+from djangotask.celery.tasks import send_signup_invitation
 
 
 class LogInView(LoginView):
@@ -40,6 +41,7 @@ class ReaderSignUpView(CreateView):
         user = form.save()
         auth_login(self.request, user,
                    backend='django.contrib.auth.backends.ModelBackend')
+        send_signup_invitation(user.username, user.email)
         return redirect('home')
 
 
@@ -56,6 +58,7 @@ class BloggerSignUpView(CreateView):
         user = form.save()
         auth_login(self.request, user,
                    backend='django.contrib.auth.backends.ModelBackend')
+        send_signup_invitation(user.username, user.email)
         return redirect('home')
 
 

@@ -191,11 +191,12 @@ MESSAGE_LEVEL = message_constants.DEBUG
 
 CELERY_BROKER_URL = 'redis://redis:6379'
 CELERY_RESULT_BACKEND = 'redis://redis:6379'
+
 # Email
 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_USE_TLS = True
 EMAIL_HOST = "smtp.gmail.com"
-EMAIL_HOST_USER = "test@gmail.com"
-EMAIL_HOST_PASSWORD = "test"
+EMAIL_HOST_USER = "django.test.spamer@gmail.com"
+EMAIL_HOST_PASSWORD = "spamer019283"
 EMAIL_PORT = 587
