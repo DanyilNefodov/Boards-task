@@ -4,18 +4,20 @@ from accounts.models import UserProfile as User
 from django.urls import reverse_lazy, reverse
 from django.views.generic import UpdateView, ListView
 from django.utils.decorators import method_decorator
-from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
+from django.http import HttpResponse, JsonResponse, HttpResponseRedirect, HttpResponseNotFound
 from django.utils import timezone
 from django.db.models import Count
 from django.core.paginator import Paginator
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.template.loader import render_to_string
 from django.contrib import messages
+from django.core.files.storage import FileSystemStorage
 import humanize
 import datetime
 import json
 import csv
 import xlwt
+from weasyprint import HTML
 from boards.forms import (
     NewTopicForm, PostForm, UpdateTopicForm
 )
@@ -293,4 +295,22 @@ def export_posts_xlwt(request, pk, topic_pk):
             ws.write(row_num, col_num, row[col_num], font_style)
 
     wb.save(response)
+    return response
+
+
+def export_posts_pdf(request, pk, topic_pk):
+    topic = Topic.objects.get(id=topic_pk)
+    posts = Post.objects.filter(topic=topic_pk)
+    html_string = render_to_string(
+        'topic_posts.html', {'posts': posts, 'topic': topic})
+
+    html = HTML(string=html_string)
+    html.write_pdf(target='/tmp/mypdf.pdf')
+
+    fs = FileSystemStorage('/tmp')
+    with fs.open('mypdf.pdf') as pdf:
+        response = HttpResponse(pdf, content_type='application/pdf')
+        response['Content-Disposition'] = 'attachment; filename="mypdf.pdf"'
+        return response
+
     return response

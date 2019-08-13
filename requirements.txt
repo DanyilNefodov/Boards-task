@@ -22,3 +22,4 @@ humanize
 social-auth-app-django
 django-nocaptcha-recaptcha
 xlwt
+WeasyPrint

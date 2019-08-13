@@ -42,4 +42,6 @@ urlpatterns = [
         views.export_posts_csv, name='export_topics_csv'),
     url(r'^boards/(?P<pk>\d+)/topics/(?P<topic_pk>\d+)/export/xlwt/$',
         views.export_posts_xlwt, name='export_topics_xlwt'),
+    url(r'^boards/(?P<pk>\d+)/topics/(?P<topic_pk>\d+)/export/pdf/$',
+        views.export_posts_pdf, name='export_topics_pdf'),
 ]
