@@ -72,6 +72,14 @@ class Post(models.Model):
         return mark_safe(markdown(self.message, safe_mode='escape'))
 
 
+class Photo(models.Model):
+    post = models.ForeignKey(
+        Post, related_name='photos', on_delete=models.DO_NOTHING)
+    title = models.CharField(max_length=255, blank=True)
+    file = models.FileField(upload_to='photos/')
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+
+
 log_kinds = ((0, ("created")),
              (1, ("updated")),
              (2, ("deleted")))

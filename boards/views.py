@@ -78,27 +78,33 @@ class TopicListView(ListView):
 
 @login_required
 def new_topic(request, pk):
-    print('ffffffffff')
     board = get_object_or_404(Board, pk=pk)
-    form = NewTopicForm(request.POST)
-    if form.is_valid():
-        topic = form.save(commit=False)
-        topic.board = board
-        topic.starter = request.user  # <- here
-        topic.save()
-        Post.objects.create(
-            message=form.cleaned_data.get('message'),
-            topic=topic,
-            created_by=request.user  # <- and here
-        )
-        Log.objects.create(
-            topic=topic.subject,
-            kind=0,
-            user=request.user
-        )
-        messages.success(
-            request, 'Your topic was created successfully!', extra_tags='alert')
-        return redirect('topic_posts', pk=pk, topic_pk=topic.pk)  # <- here
+    if request.method == "POST":
+        form = NewTopicForm(request.POST, request.FILES or None)
+        print("\n\n\nPOST\n\n\n")
+        if form.is_valid():
+            print('\n\n\n', request.FILES.getlist('images'), '\n\n\n')
+            return HttpResponse("QQ")
+            # topic = form.save(commit=False)
+            # topic.board = board
+            # topic.starter = request.user  # <- here
+            # topic.save()
+            # Post.objects.create(
+            #     message=form.cleaned_data.get('message'),
+            #     topic=topic,
+            #     created_by=request.user
+            # )
+            # Log.objects.create(
+            #     topic=topic.subject,
+            #     kind=0,
+            #     user=request.user
+            # )
+            # messages.success(
+            #     request, 'Your topic was created successfully!', extra_tags='alert')
+            # return redirect('topic_posts', pk=pk, topic_pk=topic.pk)
+    else:
+        form = NewTopicForm()
+        print(request.method)
     return render(request, 'new_topic.html', {'board': board, 'form': form})
 
 
