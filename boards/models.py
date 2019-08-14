@@ -25,8 +25,10 @@ class Board(models.Model):
 class Topic(models.Model):
     subject = models.CharField(max_length=255)
     last_updated = models.DateTimeField(auto_now_add=True)
-    starter = models.ForeignKey(User, related_name='creator', on_delete=models.DO_NOTHING)
-    board = models.ForeignKey(Board, related_name='topics', on_delete=models.DO_NOTHING)
+    starter = models.ForeignKey(
+        User, related_name='creator', on_delete=models.DO_NOTHING)
+    board = models.ForeignKey(
+        Board, related_name='topics', on_delete=models.DO_NOTHING)
     views = models.PositiveIntegerField(default=0)  # <- here
 
     def __str__(self):
@@ -54,11 +56,14 @@ class Topic(models.Model):
 
 class Post(models.Model):
     message = models.TextField(max_length=255)
-    topic = models.ForeignKey(Topic, related_name='posts', on_delete=models.DO_NOTHING)
+    topic = models.ForeignKey(
+        Topic, related_name='posts', on_delete=models.DO_NOTHING)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(null=True)
-    created_by = models.ForeignKey(User, related_name='posts', on_delete=models.DO_NOTHING)
-    updated_by = models.ForeignKey(User, null=True, related_name='+', on_delete=models.DO_NOTHING)
+    created_by = models.ForeignKey(
+        User, related_name='posts', on_delete=models.DO_NOTHING)
+    updated_by = models.ForeignKey(
+        User, null=True, related_name='+', on_delete=models.DO_NOTHING)
 
     def __str__(self):
         return "{0} {1}".format(self.topic, str(self.created_at).split(".")[0][:-20])
@@ -75,8 +80,11 @@ log_kinds = ((0, ("created")),
 class Log(models.Model):
     topic = models.CharField(max_length=255)
     kind = models.PositiveIntegerField(choices=log_kinds)
-    user = models.ForeignKey(User, related_name='logs', on_delete=models.DO_NOTHING)
+    user = models.ForeignKey(User, related_name='logs',
+                             on_delete=models.DO_NOTHING)
 
     def __str__(self):
         return '{0} has been {1} by {2}'.format(self.topic, log_kinds[self.kind][1], self.user)
 
+    def get_kind(self):
+        return log_kinds[self.kind][1]

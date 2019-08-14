@@ -73,7 +73,7 @@
             <p>My actions</p>
             <ul class="nav_ul">
                 {% for log in logs %}
-                <li>{{ log.topic }} has been {{ log.kind }} by {{ log.user.username }}</li>
+                <li>{{ log.topic }} has been {{ log.get_kind }} by {{ log.user.username }}</li>
                 {% endfor %}
             </ul>
         </div>
