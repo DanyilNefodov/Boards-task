@@ -23,7 +23,7 @@ from boards.forms import (
     NewTopicForm, PostForm, UpdateTopicForm
 )
 from boards.models import (
-    Board, Topic, Post, Log
+    Board, Topic, Post, Log, Photo
 )
 import os
 from sendgrid import SendGridAPIClient
@@ -83,25 +83,33 @@ def new_topic(request, pk):
         form = NewTopicForm(request.POST, request.FILES or None)
         print("\n\n\nPOST\n\n\n")
         if form.is_valid():
-            print('\n\n\n', request.FILES.getlist('images'), '\n\n\n')
-            return HttpResponse("QQ")
-            # topic = form.save(commit=False)
-            # topic.board = board
-            # topic.starter = request.user  # <- here
-            # topic.save()
-            # Post.objects.create(
-            #     message=form.cleaned_data.get('message'),
-            #     topic=topic,
-            #     created_by=request.user
-            # )
-            # Log.objects.create(
-            #     topic=topic.subject,
-            #     kind=0,
-            #     user=request.user
-            # )
-            # messages.success(
-            #     request, 'Your topic was created successfully!', extra_tags='alert')
-            # return redirect('topic_posts', pk=pk, topic_pk=topic.pk)
+            # print('\n\n\n', request.FILES.getlist('images'), '\n\n\n')
+            # print('\n\n\n', form.cleaned_data, '\n\n\n')
+            # return HttpResponse("QQ")
+            topic = Topic.objects.create(
+                subject=form.cleaned_data['subject'],
+                starter=request.user,
+                board=board
+            )
+            post = Post.objects.create(
+                message=form.cleaned_data.get('message'),
+                topic=topic,
+                created_by=request.user
+            )
+            for image in request.FILES.getlist('images'):
+                Photo.objects.create(
+                    post=post,
+                    title=str(image),
+                    file=image
+                )
+            Log.objects.create(
+                topic=topic.subject,
+                kind=0,
+                user=request.user
+            )
+            messages.success(
+                request, 'Your topic was created successfully!', extra_tags='alert')
+            return redirect('topic_posts', pk=pk, topic_pk=topic.pk)
     else:
         form = NewTopicForm()
         print(request.method)

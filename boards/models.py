@@ -76,8 +76,8 @@ class Photo(models.Model):
     post = models.ForeignKey(
         Post, related_name='photos', on_delete=models.DO_NOTHING)
     title = models.CharField(max_length=255, blank=True)
-    file = models.FileField(upload_to='photos/')
-    uploaded_at = models.DateTimeField(auto_now_add=True)
+    file = models.FileField(upload_to='photos/', null=True)
+    uploaded_at = models.DateTimeField(auto_now_add=True, null=True)
 
 
 log_kinds = ((0, ("created")),
