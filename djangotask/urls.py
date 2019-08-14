@@ -18,9 +18,8 @@ from accounts import views as accounts_views
 from boards import views as views
 from django.conf.urls import url, include
 from django.contrib import admin
-
-# from django.conf.urls.static import static
-# from djangotask import settings
+from django.conf.urls.static import static
+from djangotask import settings
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -32,3 +31,7 @@ urlpatterns = [
         views.put_in_boards, name='putin'),
     url(r'^send/', views.send_mail_view, name='send')
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL,
+                          document_root=settings.MEDIA_ROOT)
