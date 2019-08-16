@@ -3,7 +3,18 @@ from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
+
 # Create your models here.
+
+
+class Avatar(models.Model):
+    title = models.CharField(max_length=255, blank=True)
+    file = models.ImageField(upload_to='avatars/', null=True)
+    uploaded_at = models.DateTimeField(auto_now_add=True, null=True)
+
+    class Meta:
+        verbose_name = 'avatar'
+        verbose_name_plural = 'avatars'
 
 
 class UserProfile(AbstractUser):
@@ -11,6 +22,8 @@ class UserProfile(AbstractUser):
     # surmane = models.CharField(max_length=100)
     is_blogger = models.BooleanField(default=False)
     is_reader = models.BooleanField(default=False)
+    avatar = models.ForeignKey(
+        Avatar, related_name='avatar', on_delete=models.CASCADE, null=True)
 
 
 class Hobby(models.Model):

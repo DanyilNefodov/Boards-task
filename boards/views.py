@@ -44,7 +44,7 @@ def send_mail_view(request):
 
 
 def home_view(request):
-    board_list = Board.objects.order_by('-id')
+    board_list = Board.objects.filter(active=True).order_by('-id')
     logs = Log.objects.order_by('-id')[:10]
     page = request.GET.get('page', 1)
     paginator = Paginator(board_list, 20)

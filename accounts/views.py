@@ -1,15 +1,55 @@
 from django.contrib.auth import login as auth_login
-from accounts.forms import ReaderSignUpForm, BloggerSignUpForm, LogInForm
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from accounts.models import UserProfile as User
 from django.urls import reverse_lazy
 from django.views.generic import UpdateView, CreateView
+from django.views.generic.edit import FormView
 from django.utils.decorators import method_decorator
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.views import LoginView
 from djangotask.celery.tasks import send_signup_invitation
+from accounts.forms import (
+    ReaderSignUpForm, BloggerSignUpForm, LogInForm, UserUpdateForm, AvatarForm
+)
+
+
+# def photo_list(request):
+#     photos = Photo.objects.all()
+#     if request.method == 'POST':
+#         form = PhotoForm(request.POST, request.FILES)
+#         if form.is_valid():
+#             form.save()
+#             return redirect('photo_list')
+#     else:
+#         form = PhotoForm()
+#     return render(request, 'album/photo_list.html', {'form': form, 'photos': photos})
+
+
+
+class UserUpdateView(FormView):
+    model = User
+    form_class = UserUpdateForm
+    template_name = 'my_account.html'
+
+    def form_valid(self, form):
+        user = self.request.user
+        user.first_name = form.cleaned_data['first_name']
+        user.last_name = form.cleaned_data['last_name']
+        user.email = form.cleaned_data['email']
+        user.save()
+        return redirect('home')
+
+
+def crop_avatar_view(request):
+    if request.method == 'POST':
+        form = AvatarForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('photo_list')
+    else:
+        form = AvatarForm()
 
 
 class LogInView(LoginView):
@@ -60,15 +100,3 @@ class BloggerSignUpView(CreateView):
                    backend='django.contrib.auth.backends.ModelBackend')
         send_signup_invitation.delay(user.username, user.email)
         return redirect('home')
-
-
-@method_decorator(login_required, name='dispatch')
-class UserUpdateView(SuccessMessageMixin, UpdateView):
-    model = User
-    fields = ('first_name', 'last_name', 'email', )
-    template_name = 'my_account.html'
-    success_message = 'Your account was updated successfully!'
-    success_url = reverse_lazy('home')
-
-    def get_object(self):
-        return self.request.user
