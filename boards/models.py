@@ -71,13 +71,20 @@ class Post(models.Model):
     def get_message_as_markdown(self):
         return mark_safe(markdown(self.message, safe_mode='escape'))
 
+    def get_photos_of_post(self):
+        return Photo.objects.filter(post=self)
+
 
 class Photo(models.Model):
     post = models.ForeignKey(
         Post, related_name='photos', on_delete=models.DO_NOTHING)
     title = models.CharField(max_length=255, blank=True)
-    file = models.FileField(upload_to='photos/', null=True)
+    file = models.ImageField(upload_to='photos/', null=True)
     uploaded_at = models.DateTimeField(auto_now_add=True, null=True)
+
+    class Meta:
+        verbose_name = 'photo'
+        verbose_name_plural = 'photos'
 
 
 log_kinds = ((0, ("created")),

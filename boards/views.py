@@ -160,7 +160,10 @@ def delete_topic(request, pk, topic_pk, confirmed=False):
     if request.method == 'POST':
         if confirmed:
             topic = Topic.objects.get(pk=topic_pk)
-            Post.objects.filter(topic=topic).delete()
+            posts = Post.objects.filter(topic=topic)
+            for post in posts:
+                Photo.objects.filter(post=post).delete()
+            posts.delete()
             Log.objects.create(
                 topic=topic.subject,
                 kind=2,

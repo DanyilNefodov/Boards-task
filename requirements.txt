@@ -26,3 +26,4 @@ WeasyPrint
 celery==4.2.2
 redis==3.3.6
 sendgrid
+Pillow

@@ -54,6 +54,9 @@
                     </div>
                 </div>
                 {{ post.get_message_as_markdown }}
+                {% for photo in post.get_photos_of_post %}
+                <a href="{{ photo.file.url }}">{{ photo.file.name }}</a><br>
+                {% endfor %}
                 {% if post.created_by == user %}
                 <div class="mt-3">
                     <a href="{% url 'edit_post' post.topic.board.pk post.topic.pk post.pk %}"
